@@ -8,14 +8,20 @@ use App\Http\Requests\UpdateCompanyRequest;
 
 class CompanyController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        return view('companies.index');
+    }
+
+    /**
+     * Data for datatable
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Yajra\DataTables\Exceptions\Exception
+     */
+    public function data()
+    {
+        $data = Company::all();
+        return datatables()->of($data)->toJson();
     }
 
     /**

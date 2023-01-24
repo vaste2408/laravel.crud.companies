@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\HomeController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +17,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::group(['middleware' => ['auth']], function() {
+    Route::get('companies/data', [CompanyController::class, 'data']);
+    Route::resource('companies', CompanyController::class, [
+        'names' => [
+            'index' => 'companies'
+        ]
+    ]);
+    Route::resource('employees', EmployeeController::class);
 });
+
+Auth::routes(['register' => false]);
+
+Route::get('/', [HomeController::class, 'index']);
