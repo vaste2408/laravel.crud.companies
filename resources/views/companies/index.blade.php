@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8">
-                <h3>Companies</h3>
+                <h3>Companies</h3> <a href="{{route('companies.create')}}" class="btn btn-info">Create new</a>
                 <hr>
                 <table id="companies__dt" class="table table-bordered table-condensed table-striped" >
                     <thead>
@@ -16,9 +16,7 @@
                         <th>Address</th>
                     </tr>
                     </thead>
-
                 </table>
-                <!-- our script will be here -->
             </div>
         </div>
     </div>
@@ -27,9 +25,7 @@
     <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
     <script>
         $(document).ready(function() {
-            $.noConflict();
-
-            jQuery('#companies__dt').DataTable({
+            $('#companies__dt').DataTable({
                 ajax: '/companies/data',
                 serverSide: true,
                 processing: true,
