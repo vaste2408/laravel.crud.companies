@@ -15,7 +15,7 @@
                     @endif
 
                     {{ ('You are logged in!') }}
-                    Go to <a href="{{route('companies')}}">Companies</a>
+                    Go to <a href="{{route('companies')}}">Companies</a> or <a href="{{route('employees')}}">Employees</a>
                 </div>
             </div>
         </div>

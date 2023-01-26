@@ -15,7 +15,29 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        //
+        return view('employees.index');
+    }
+
+    /**
+     * Data for datatable
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Yajra\DataTables\Exceptions\Exception
+     */
+    public function data()
+    {
+        $data = Employee::all();
+        //I don't really like that markup nesting from controller, but I can't see any alternatives
+        return datatables()
+            ->of($data)
+            ->addColumn('actions', '
+            {{
+                view("components.datatable.dt_buttons",
+                ["routeShowName" => "employees.show", "routeEditName" => "employees.edit",
+                "routeDestroyName" => "employees.destroy", "id" => $id])
+            }}
+            ')
+            ->rawColumns(['actions'])
+            ->toJson();
     }
 
     /**

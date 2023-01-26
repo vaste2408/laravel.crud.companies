@@ -26,9 +26,9 @@ class StoreCompanyRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'email' => 'required|email',
-            'address' => 'required|string',
-            'logo' => 'required',
+            'email' => '',
+            'address' => '',
+            'logo' => '',
         ];
     }
 }

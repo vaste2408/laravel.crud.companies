@@ -21,7 +21,18 @@ class CompanyController extends Controller
     public function data()
     {
         $data = Company::all();
-        return datatables()->of($data)->toJson();
+        //I don't really like that markup nesting from controller, but I can't see any alternatives
+        return datatables()
+            ->of($data)
+            ->addColumn('actions', '
+            {{
+                view("components.datatable.dt_buttons",
+                ["routeShowName" => "companies.show", "routeEditName" => "companies.edit",
+                "routeDestroyName" => "companies.destroy", "id" => $id])
+            }}
+            ')
+            ->rawColumns(['actions'])
+            ->toJson();
     }
 
     /**
@@ -49,22 +60,22 @@ class CompanyController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Company  $company
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function show(Company $company)
     {
-        //
+        return view('companies.info', ['company' => $company]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Company  $company
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function edit(Company $company)
     {
-        //
+        return view('companies.edit', ['company' => $company]);
     }
 
     /**
@@ -84,11 +95,12 @@ class CompanyController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Company  $company
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Company $company)
     {
+        $company->delete();
         return redirect()->route('companies')
-            ->with('fail','Do not do it');
+            ->with('success','Company deleted');
     }
 }

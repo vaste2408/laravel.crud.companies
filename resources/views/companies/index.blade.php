@@ -14,6 +14,7 @@
                         <th>Email</th>
                         <th>Logo</th>
                         <th>Address</th>
+                        <th></th>
                     </tr>
                     </thead>
                 </table>
@@ -35,7 +36,8 @@
                     {data: 'email', name: 'email'},
                     {data: 'logo', name: 'logo'},
                     {data: 'address', name: 'address'},
-                ]
+                    {data: 'actions', name: 'actions'},
+                ],
             });
         })
     </script>
