@@ -1,5 +1,5 @@
 @extends('layouts.authorized')
 
 @section('inner')
-    {{$company}}
+    {{$employee}}
 @endsection

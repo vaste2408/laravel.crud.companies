@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.authorized')
 
-@section('content')
+@section('inner')
     {{view('components.markup.form_edit', [
     'header' => 'Edit company',
     'errors' => $errors,

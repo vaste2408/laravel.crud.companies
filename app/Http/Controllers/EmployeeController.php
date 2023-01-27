@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Company;
 use App\Models\Employee;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
@@ -25,7 +26,8 @@ class EmployeeController extends Controller
      */
     public function data()
     {
-        $data = Employee::all();
+        $data = Employee::join('companies', 'companies.id', '=', 'employees.company_id')
+            ->get(['employees.id', 'employees.name', 'employees.email', 'employees.phone', 'companies.name as company']);
         //I don't really like that markup nesting from controller, but I can't see any alternatives
         return datatables()
             ->of($data)
@@ -47,7 +49,7 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        //
+        return view('employees.create', ['companies' => Company::all()]);
     }
 
     /**
@@ -58,7 +60,8 @@ class EmployeeController extends Controller
      */
     public function store(StoreEmployeeRequest $request)
     {
-        //
+        Employee::create($request->validated());
+        return redirect()->route('employees')->with('success', 'Employee created');
     }
 
     /**
@@ -69,7 +72,7 @@ class EmployeeController extends Controller
      */
     public function show(Employee $employee)
     {
-        //
+        return view('employees.info', ['employee' => $employee]);
     }
 
     /**
@@ -80,7 +83,7 @@ class EmployeeController extends Controller
      */
     public function edit(Employee $employee)
     {
-        //
+        return view('employees.edit', ['employee' => $employee, 'companies' => Company::all()]);
     }
 
     /**
@@ -92,7 +95,8 @@ class EmployeeController extends Controller
      */
     public function update(UpdateEmployeeRequest $request, Employee $employee)
     {
-        //
+        $employee->update($request->validated());
+        return redirect()->route('employees')->with('success', 'Employee updated');
     }
 
     /**
@@ -103,6 +107,8 @@ class EmployeeController extends Controller
      */
     public function destroy(Employee $employee)
     {
-        //
+        $employee->delete();
+        return redirect()->route('employees')
+            ->with('success','Employee deleted');
     }
 }

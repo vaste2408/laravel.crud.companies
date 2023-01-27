@@ -18,8 +18,8 @@ class Company extends Model
         'address',
     ];
 
-    public function employees()
+    public function employee()
     {
-        return $this->hasMany(Employee::class);
+        return $this->hasMany(Employee::class, 'company_id');
     }
 }

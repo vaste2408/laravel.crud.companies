@@ -25,6 +25,7 @@ Route::group(['middleware' => ['auth']], function() {
             'index' => 'companies'
         ]
     ]);
+    Route::get('employees/data', [EmployeeController::class, 'data']);
     Route::post('employees/{employee}', [EmployeeController::class, 'update']); //Same hack as for companies
     Route::resource('employees', EmployeeController::class, [
         'names' => [

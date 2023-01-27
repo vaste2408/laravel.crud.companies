@@ -18,9 +18,15 @@
 
                 <div class="row">
                     @foreach($fields as $field)
-                        {{view('components.markup.form_input_field',
+                        @if($field['type'] == 'select')
+                        {{view('components.markup.form_select_field',
+                            ['label' => $field['label'], 'data' => $field['data'],
+                            'name' => $field['name'], 'value' => $field['value']??'', 'required' => $field['required']])}}
+                        @else
+                            {{view('components.markup.form_input_field',
                             ['label' => $field['label'], 'type' => $field['type'],
-                            'name' => $field['name'], 'value' => $field['value'], 'required' => $field['required']])}}
+                            'name' => $field['name'], 'value' => $field['value']??'', 'required' => $field['required']])}}
+                        @endif
                     @endforeach
 
                     <div class="col-xs-12 col-sm-12 col-md-12 mt-2 d-flex justify-content-between">
