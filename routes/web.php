@@ -16,24 +16,29 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/', [HomeController::class, 'index']);
+Auth::routes(['register' => false]);
 
 Route::group(['middleware' => ['auth']], function() {
-    Route::get('companies/data', [CompanyController::class, 'data']);
-    Route::post('companies/{company}', [CompanyController::class, 'update']); //Html forms sadly cannot use PUT/PATCH methods
+    Route::prefix('companies')->group(function() {
+        Route::get('data', [CompanyController::class, 'data']);
+        Route::post('{company}', [CompanyController::class, 'update']); //Html forms sadly cannot use PUT/PATCH methods
+        Route::get('{company}/employees/data', [CompanyController::class, 'employeesData'])->name('company.employees.data');
+    });
     Route::resource('companies', CompanyController::class, [
         'names' => [
             'index' => 'companies'
         ]
     ]);
-    Route::get('employees/data', [EmployeeController::class, 'data']);
-    Route::post('employees/{employee}', [EmployeeController::class, 'update']); //Same hack as for companies
+
+
+    Route::prefix('employees')->group(function () {
+        Route::get('data', [EmployeeController::class, 'data']);
+        Route::post('{employee}', [EmployeeController::class, 'update']); //Same hack as for companies
+    });
     Route::resource('employees', EmployeeController::class, [
         'names' => [
             'index' => 'employees'
         ]
     ]);
 });
-
-Auth::routes(['register' => false]);
-
-Route::get('/', [HomeController::class, 'index']);

@@ -5,9 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Company;
 use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
+use App\Services\DatatableDataService;
 
 class CompanyController extends Controller
 {
+    /**
+     * Companies index page
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function index()
     {
         return view('companies.index');
@@ -20,19 +25,17 @@ class CompanyController extends Controller
      */
     public function data()
     {
-        $data = Company::all();
-        //I don't really like that markup nesting from controller, but I can't see any alternatives
-        return datatables()
-            ->of($data)
-            ->addColumn('actions', '
-            {{
-                view("components.datatable.dt_buttons",
-                ["routeShowName" => "companies.show", "routeEditName" => "companies.edit",
-                "routeDestroyName" => "companies.destroy", "id" => $id])
-            }}
-            ')
-            ->rawColumns(['actions'])
-            ->toJson();
+        return DatatableDataService::getCompaniesData();
+    }
+
+    /**
+     * Data for company employees
+     * @param Company $company
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function employeesData(Company $company)
+    {
+        return DatatableDataService::getEmployeesData($company);
     }
 
     /**
