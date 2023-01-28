@@ -7,14 +7,19 @@
             <h3 id="company_name">{{$company->name}}</h3>
             <hr>
             <div class="col-md-4">
-                {{$company->logo}}
-                Email: {{$company->email}}
+                @if ($company->logo)
+                    <img class="p-0 ms-3" style="min-width: 100px; min-height: 100px; max-width:300px; max-height: 300px;" src="{{'/images/'.$company->logo}}" />
+                @else
+                    <p>no logo</p>
+                @endif
+
             </div>
-            <div class="col-md-8">
+            <div class="col-md-8 border-start">
+                <p>Email: {{$company->email??'-'}}</p>
+                <p id="address_text">
+                    Address: {{$company->address??'-'}}
+                </p>
                 <div id="map" style="width: 600px; height: 400px"></div>
-                <span id="address_text">
-                    {{$company->address}}
-                </span>
             </div>
         </div>
     </div>
@@ -31,13 +36,14 @@
                 format: 'json',
                 lang: 'ru_RU'
             }).done(function( data ) {
-                if (data.response && data.response.GeoObjectCollection && data.response.GeoObjectCollection.featureMember) {
+                if (data.response && data.response.GeoObjectCollection && data.response.GeoObjectCollection.featureMember.length > 0) {
                     let _coords = data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ');
                     coords = [_coords[1], _coords[0]];
                     ymaps.ready(init);
                 }
                 else {
                     $('<p>Address not found on Yandex maps</p>').insertAfter(ADDRESS_FIELD);
+                    $('#map').hide();
                 }
             });
         }

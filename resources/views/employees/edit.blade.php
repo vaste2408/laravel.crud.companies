@@ -1,6 +1,7 @@
 @extends('layouts.authorized')
 
 @section('inner')
+
     {{view('components.markup.form_edit', [
     'header' => 'Edit employee',
     'errors' => $errors,

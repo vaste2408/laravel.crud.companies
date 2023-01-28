@@ -29,6 +29,7 @@ class UpdateCompanyRequest extends FormRequest
             'email' => '',
             'address' => '',
             'logo' => '',
+            'old_logo' => ''
         ];
     }
 }

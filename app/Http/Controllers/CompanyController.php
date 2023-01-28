@@ -6,6 +6,7 @@ use App\Models\Company;
 use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 use App\Services\DatatableDataService;
+use App\Services\FileUploadService;
 
 class CompanyController extends Controller
 {
@@ -55,7 +56,9 @@ class CompanyController extends Controller
      */
     public function store(StoreCompanyRequest $request)
     {
-        Company::create($request->validated());
+        $data = $request->validated();
+        $data['logo'] = FileUploadService::getFileData($request);
+        Company::create($data);
         return redirect()->route('companies')->with('success', 'Company created');
     }
 
@@ -90,7 +93,12 @@ class CompanyController extends Controller
      */
     public function update(UpdateCompanyRequest $request, Company $company)
     {
-        $company->update($request->validated());
+        $data = $request->validated();
+        $data['logo'] = FileUploadService::getFileData($request);
+        if (empty($data['logo'])) {
+            $data['logo'] = $request->old_logo;
+        }
+        $company->update($data);
         return redirect()->route('companies')->with('success', 'Company updated');
     }
 

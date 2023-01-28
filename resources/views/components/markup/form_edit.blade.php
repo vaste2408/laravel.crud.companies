@@ -13,18 +13,24 @@
                 </div>
             @endif
 
-            <form action="{{$action}}" method="{{$method ?? 'GET'}}">
+            <form action="{{$action}}" method="{{$method ?? 'GET'}}" enctype="multipart/form-data">
                 @csrf
 
                 <div class="row">
                     @foreach($fields as $field)
                         @if($field['type'] == 'select')
                         {{view('components.markup.form_select_field',
-                            ['label' => $field['label'], 'data' => $field['data'],
+                            ['label' => $field['label'], 'data' => $field['data'], 'disabled' => $field['disabled'] ?? '',
+                            'hidden' => $field['hidden'] ?? '',
                             'name' => $field['name'], 'value' => $field['value']??'', 'required' => $field['required']])}}
+                        @elseif($field['type'] == 'image')
+                            @if ($field['value']??false)
+                                <img class="p-0 ms-3" style="min-width: 100px; min-height: 100px; max-width:300px; max-height: 300px;" src="{{'/images/'.$field['value']}}" />
+                            @endif
                         @else
                             {{view('components.markup.form_input_field',
-                            ['label' => $field['label'], 'type' => $field['type'],
+                            ['label' => $field['label'], 'type' => $field['type'], 'disabled' => $field['disabled'] ?? '',
+                            'hidden' => $field['hidden'] ?? '',
                             'name' => $field['name'], 'value' => $field['value']??'', 'required' => $field['required']])}}
                         @endif
                     @endforeach
