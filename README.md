@@ -1,66 +1,34 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<h1>ТЕСТОВОЕ ЗАДАНИЕ</h1>
+<h1>Общее описание</h1>
+<ol>
+<li>Создать приложение, используя стандартные библиотеки Laravel</li>
+<li>Приложение представляет собой админ-панель для управления компаниями</li>
+<li>В приложении должна быть реализована аутентификация администратора</li>
+<li>Приложение должно управлять 2мя сущностями: Кампании и Сотрудники</li>
+<li>Должен быть реализован CRUD для обеих сущностей</li>
+<li>Поля сущности Компания: имя (обязательное), email, логотип (минимальный размер 100х100), адрес</li>
+<li>Поля сущности Сотрудник: имя, компания (привязка к Компании), email, телефон</li>
+<li>На странице просмотра компании помимо основной информации о компании должна выводиться Яндекс.карта с отображением
+ адреса компании и все привязанные сотрудники</li>
+</ol>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+<h2>Требования</h2>
+<ol>
+<li>Использовать штатные механизмы валидации для создания/обновления записей</li>
+<li>Использовать make:auth, но регистрация должна быть отключена</li>
+<li>Для отображения списков Компаний/Сотрудников использовать библиотеку Datatables</li>
+</ol>
 
-## About Laravel
-
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
-
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+<h1>ПРИМЕЧАНИЯ РАЗРАБОТЧИКА</h1>
+<p>make:auth в версиях Laravel 6+ была отключена. Вместо неё используется более новый аналог.</p>
+<p>Я не сторонник хард-делита, тем более каскадного, предпочитая софт-делит, но в ТЗ про это не сказано ни слова,
+так что реализован каскадный хард-делит.</p>
+<p>Несмотря на то, что ТЗ косвенно намекает (Общее описание - пункт 2) на то, что DT с Сотрудниками должна 
+располагаться непосредственно в Кампании, на основании пунктов 4 и 5 Общего описания Я всё-таки добавил
+отдельную DT с Сотрудниками в админ-панель. Мне кажется, чисто по человечески так удобнее.</p>
+<p>КЛАДР к полю "Адрес" не прикручивал, т.к. в ТЗ об этом ни слова. Это сыграет свою роль в Я.К.</p>
+<p>Яндекс.карта ищет координаты адреса по первому совпадению. В случае, если координаты не нашлись 
+- карта не инициализируется.</p>
+<p>Штатных механизмов валидации размера загружаемого файла (проверка минимум 100х100 пикселей) Я не нашёл, 
+либо их не существует. Я знаю только проверку "веса" файла. Плюс есть ещё вариант использования ресайзера, чтобы 
+все изображения меньше 100х100 растягивать, но он является сторонней библиотекой, что запрещено по ТЗ.</p>

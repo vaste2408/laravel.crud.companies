@@ -7,24 +7,30 @@ use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 use App\Services\DatatableDataService;
 use App\Services\FileUploadService;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Yajra\DataTables\Exceptions\Exception;
 
 class CompanyController extends Controller
 {
     /**
      * Companies index page
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return Application|Factory|View
      */
-    public function index()
+    public function index(): View|Factory|Application
     {
         return view('companies.index');
     }
 
     /**
      * Data for datatable
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Yajra\DataTables\Exceptions\Exception
+     * @return JsonResponse
+     * @throws Exception
      */
-    public function data()
+    public function data(): JsonResponse
     {
         return DatatableDataService::getCompaniesData();
     }
@@ -32,18 +38,19 @@ class CompanyController extends Controller
     /**
      * Data for company employees
      * @param Company $company
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
+     * @throws Exception
      */
-    public function employeesData(Company $company)
+    public function employeesData(Company $company): JsonResponse
     {
         return DatatableDataService::getEmployeesData($company);
     }
 
     /**
      * Show the form for creating a new resource.
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return Application|Factory|View
      */
-    public function create()
+    public function create(): View|Factory|Application
     {
         return view('companies.create');
     }
@@ -51,10 +58,10 @@ class CompanyController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreCompanyRequest  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @param StoreCompanyRequest $request
+     * @return RedirectResponse
      */
-    public function store(StoreCompanyRequest $request)
+    public function store(StoreCompanyRequest $request): RedirectResponse
     {
         $data = $request->validated();
         $data['logo'] = FileUploadService::getFileData($request);
@@ -65,10 +72,10 @@ class CompanyController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Company  $company
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @param Company $company
+     * @return Application|Factory|View
      */
-    public function show(Company $company)
+    public function show(Company $company): View|Factory|Application
     {
         return view('companies.info', ['company' => $company]);
     }
@@ -76,10 +83,10 @@ class CompanyController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Company  $company
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @param Company $company
+     * @return Application|Factory|View
      */
-    public function edit(Company $company)
+    public function edit(Company $company): View|Factory|Application
     {
         return view('companies.edit', ['company' => $company]);
     }
@@ -87,11 +94,11 @@ class CompanyController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateCompanyRequest  $request
-     * @param  \App\Models\Company  $company
-     * @return \Illuminate\Http\RedirectResponse
+     * @param UpdateCompanyRequest $request
+     * @param Company $company
+     * @return RedirectResponse
      */
-    public function update(UpdateCompanyRequest $request, Company $company)
+    public function update(UpdateCompanyRequest $request, Company $company): RedirectResponse
     {
         $data = $request->validated();
         $data['logo'] = FileUploadService::getFileData($request);
@@ -105,10 +112,10 @@ class CompanyController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Company  $company
-     * @return \Illuminate\Http\RedirectResponse
+     * @param Company $company
+     * @return RedirectResponse
      */
-    public function destroy(Company $company)
+    public function destroy(Company $company): RedirectResponse
     {
         $company->delete();
         return redirect()->route('companies')

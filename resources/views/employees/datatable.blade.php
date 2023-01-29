@@ -31,7 +31,7 @@
                 {data: 'name', name: 'name'},
                 {data: 'email', name: 'email'},
                 {data: 'phone', name: 'phone'},
-                {data: 'company', name: 'company'},
+                {data: 'company.name', name: 'company'},
                 {data: 'actions', name: 'actions'},
             ],
         });

@@ -70,7 +70,6 @@
             });
 
             myMap.geoObjects.add(myGeoObject); // Добавление метки
-            myPlacemark.balloon.open(); // Открытие подсказки метки
         }
         findAddressCoordinates();
     </script>

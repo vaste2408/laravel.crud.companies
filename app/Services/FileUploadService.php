@@ -6,6 +6,13 @@ use Illuminate\Http\Request;
 
 class FileUploadService
 {
+    /**
+     * Validates income file request if some.
+     * Moves file to /public/image.
+     * Returns filename if had file in request, null otherwise
+     * @param Request $request
+     * @return null
+     */
     public static function getFileData (Request $request)
     {
         if ($request->logo) {

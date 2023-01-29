@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use JetBrains\PhpStorm\ArrayShape;
 
 class StoreCompanyRequest extends FormRequest
 {
@@ -12,7 +13,7 @@ class StoreCompanyRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return Auth::check();
     }
@@ -22,7 +23,7 @@ class StoreCompanyRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    #[ArrayShape(['name' => "string", 'email' => "string", 'address' => "string", 'logo' => "string"])] public function rules(): array
     {
         return [
             'name' => 'required|string',

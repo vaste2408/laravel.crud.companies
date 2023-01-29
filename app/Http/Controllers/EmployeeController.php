@@ -7,24 +7,31 @@ use App\Models\Employee;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
 use App\Services\DatatableDataService;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Yajra\DataTables\Exceptions\Exception;
 
 class EmployeeController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
-    public function index()
+    public function index(): View|Factory|Application
     {
         return view('employees.index');
     }
 
     /**
      * Data for datatable
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
+     * @throws Exception
      */
-    public function data()
+    public function data(): JsonResponse
     {
         return DatatableDataService::getEmployeesData();
     }
@@ -32,9 +39,9 @@ class EmployeeController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return Application|Factory|View
      */
-    public function create()
+    public function create(): View|Factory|Application
     {
         return view('employees.create', ['companies' => Company::all()]);
     }
@@ -42,10 +49,10 @@ class EmployeeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreEmployeeRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreEmployeeRequest $request
+     * @return RedirectResponse
      */
-    public function store(StoreEmployeeRequest $request)
+    public function store(StoreEmployeeRequest $request): RedirectResponse
     {
         Employee::create($request->validated());
         return redirect()->route('employees')->with('success', 'Employee created');
@@ -54,10 +61,10 @@ class EmployeeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Employee  $employee
-     * @return \Illuminate\Http\Response
+     * @param Employee $employee
+     * @return Application|Factory|View
      */
-    public function show(Employee $employee)
+    public function show(Employee $employee): View|Factory|Application
     {
         return view('employees.info', ['employee' => $employee]);
     }
@@ -65,10 +72,10 @@ class EmployeeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Employee  $employee
-     * @return \Illuminate\Http\Response
+     * @param Employee $employee
+     * @return Application|Factory|View
      */
-    public function edit(Employee $employee)
+    public function edit(Employee $employee): View|Factory|Application
     {
         return view('employees.edit', ['employee' => $employee, 'companies' => Company::all()]);
     }
@@ -77,10 +84,10 @@ class EmployeeController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\UpdateEmployeeRequest  $request
-     * @param  \App\Models\Employee  $employee
-     * @return \Illuminate\Http\Response
+     * @param Employee $employee
+     * @return RedirectResponse
      */
-    public function update(UpdateEmployeeRequest $request, Employee $employee)
+    public function update(UpdateEmployeeRequest $request, Employee $employee): RedirectResponse
     {
         $employee->update($request->validated());
         return redirect()->route('employees')->with('success', 'Employee updated');
@@ -89,10 +96,10 @@ class EmployeeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Employee  $employee
-     * @return \Illuminate\Http\Response
+     * @param Employee $employee
+     * @return RedirectResponse
      */
-    public function destroy(Employee $employee)
+    public function destroy(Employee $employee): RedirectResponse
     {
         $employee->delete();
         return redirect()->route('employees')
